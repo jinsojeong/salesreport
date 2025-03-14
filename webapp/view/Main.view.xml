@@ -1,18 +1,59 @@
 <mvc:View controllerName="sync.c23.salesreport.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page 
-        id="page" 
-        title="{i18n>title}">
-    
-    <!--Sales List 출력하는 부분-->
-    <Panel 
-        headerText="판매목록"
-        height="auto"
-        class="sapUiResponsiveMargin"
-        width="95%"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
     >
     
-    </Panel>
+        <!-- Detail 부분을 따로 구현하는 view -->
+        <mvc:XMLView
+            id="idDetailView"
+            viewName="sync.c23.salesreport.view.SalesDetail"
+        />
+
+        <!-- Sales List 출력하는 부분 
+        여기에서 SalesDetail View를 중첩시킨다.-->
+        <Panel
+            headerText="판매목록"
+            height="600px"
+            class="sapUiResponsiveMargin"
+            width="95%"
+        >
+            <!-- sales 모델에서 하나씩 가져오는 List 구현 -->
+            <List
+                id="idList"
+                items="{sales>/Orders}"
+            >
+                <!-- items의 경로를 지정해서 그 안에서는 상대경로로 구현 -->
+                <items>
+                    <!-- 
+                        ObjectListItem 안에 관련 값들을 띄우고 
+                        attibutes를 이용해서 부가 정보도 보이게 해준다. 
+                    -->
+                    <ObjectListItem
+                        title="{sales>order_id}"
+                        number="{
+                    parts : [ 'sales>amount', 'sales>currency' ], 
+                    type : 'sap.ui.model.type.Currency', 
+                    formatOptions : {
+                        showMeasure : false
+                    }
+                }"
+                        numberUnit="{sales>currency}"
+                    >
+                        <attributes>
+                            <ObjectAttribute
+                                text="{sales>order_date} {sales>order_time}"
+                            />
+                            <ObjectAttribute
+                                text="{sales>product_name} x {sales>quantity}"
+                            />
+                        </attributes>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </Panel>
     </Page>
 </mvc:View>
