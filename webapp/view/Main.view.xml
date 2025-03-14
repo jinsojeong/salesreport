@@ -1,0 +1,38 @@
+<mvc:View controllerName="sync.c23.salesreport.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    
+    <!--Sales List 출력-->
+    <Panel 
+        headerText="판매목록"
+        height="auto"
+        class="sapUiResponsiveMargin"
+        width="95%"
+    >
+    <!-- Sale 모델에서 List가져오기-->
+    <List 
+        id="listId"
+        items="{sales>Orders}"
+    >
+        <!-- items의 경로를 지정해서 그 안에서는 상대경로로 구현 -->
+        <items>
+            <ObjectListItem
+                title="{sales>ordr_id}">
+                <attributes>
+                    <ObjectAttribute>
+
+                    </ObjectAttribute>
+                </attributes>
+                
+            
+            </ObjectListItem>
+        </items>
+    </List>
+    
+    
+    </Panel>
+    
+    
+    </Page>
+</mvc:View>
